@@ -96,9 +96,13 @@ class DrawingUtil {
         context.save()
         context.translate(gap * (i + 1), h / 2)
         context.rotate(Math.PI / 2 * sc2)
+        context.save()
+        context.translate(-size, -size)
+        DrawingUtil.drawLine(context, 0, 0, 0, 2 * size)
         for (var i = 0; i < lines; i++) {
             DrawingUtil.drawLBars(context, i, sc1, size)
         }
+        context.restore()
         context.restore()
     }
 }
