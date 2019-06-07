@@ -63,6 +63,42 @@ class LStepsStage {
     }
 }
 
+class DrawingUtil {
+
+    static drawLine(context : CanvasRenderingContext2D, x1 : number, y1 : number, x2 : number, y2 : number) {
+        context.beginPath()
+        context.moveTo(x1, y1)
+        context.lineTo(x2, y2)
+        context.stroke()
+    }
+
+    static drawLBars(context : CanvasRenderingContext2D, i : number, scale : number, size : number) {
+        const gap : number = (2 * size) / (lines)
+        const sc : number = ScaleUtil.divideScale(scale, i, lines)
+        context.save()
+        context.translate(0, gap * (i + 1))
+        DrawingUtil.drawLine(context, 0, 0, gap * (i + 1) * sc, 0)
+        context.restore()
+    }
+
+    static drawLSNode(context : CanvasRenderingContext2D, i : number, scale : number) {
+        const gap : number = w / (nodes + 1)
+        const sc1 : number = ScaleUtil.divideScale(scale, 0, 2)
+        const sc2 : number = ScaleUtil.divideScale(scale, 1, 2)
+        const size : number = gap / sizeFactor
+        context.lineCap = 'round'
+        context.lineWidth = Math.min(w, h) / strokeFactor
+        context.strokeStyle = foreColor
+        context.save()
+        context.translate(gap * (i + 1), h / 2)
+        context.rotate(Math.PI / 2 * sc2)
+        for (var i = 0; i < lines; i++) {
+            DrawingUtil.drawLBars(context, i, sc1, size)
+        }
+        context.restore()
+    }
+}
+
 class State {
 
     scale : number = 0
