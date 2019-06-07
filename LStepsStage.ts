@@ -211,3 +211,25 @@ class LSteps {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    ls : LSteps = new LSteps()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.ls.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.ls.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.ls.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
